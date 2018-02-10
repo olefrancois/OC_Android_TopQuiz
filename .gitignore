@@ -3,7 +3,13 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/dictionaries
+/.idea/libraries
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+.idea/codeStyleSettings.xml
+.idea/vcs.xml
