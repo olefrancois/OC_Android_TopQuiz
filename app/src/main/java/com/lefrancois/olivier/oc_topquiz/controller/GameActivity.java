@@ -1,6 +1,8 @@
 package com.lefrancois.olivier.oc_topquiz.controller;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +25,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private QuestionBank mQuestionBank;
     private Question mCurrentQuestion;
+    private int mScore;
+    private int mNumberOfQuestions;
 
     private QuestionBank getQuestions() {
         Question question1 = new Question("Who is the creator of Android?",
@@ -57,6 +61,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         mQuestionBank = getQuestions();
+
+        mScore = 0;
+        mNumberOfQuestions = 4;
 
         mQuestionTextView = (TextView) findViewById(R.id.activity_game_question_text);
         mAnswerButton1 = (Button) findViewById(R.id.activity_game_answer1_btn);
@@ -93,8 +100,31 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         if (responseIndex == mCurrentQuestion.getAnswerIndex()) {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            mScore++;
         } else {
             Toast.makeText(this, "Nop!", Toast.LENGTH_LONG).show();
         }
+
+        if (--mNumberOfQuestions == 0) {
+            endGame();
+        } else {
+            mCurrentQuestion = mQuestionBank.getQuestion();
+            displayQuestion(mCurrentQuestion);
+        }
+    }
+
+    private void endGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Good job!")
+                .setMessage("Your score is " + mScore)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .create()
+                .show();
     }
 }
